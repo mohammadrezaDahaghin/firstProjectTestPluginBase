@@ -8,11 +8,23 @@ function wp_api_regisetr_menu(){
     add_menu_page('منابع','منابع','manage_options','resources_my_wpdb','wp_apis_myhandler');
 
     add_submenu_page('resources_my_wpdb','افراد','افراد','manage_options','user_my_wpdb','wp_apis_users_handler');
+    
+    add_submenu_page('resources_my_wpdb','مدیران','مدیران','manage_options','admins_my_wpdb','wp_apis_admins_handler');
 
 }
 
 function wp_apis_myhandler(){
     include WP_APIS_TPL.'admin/menu/main.php';
+}
+
+function wp_apis_admins_handler(){
+    global $wpdb;
+    if(isset($_GET['action'])&& $_GET['action']=='edit')
+    {
+        $adminID=
+    }
+    $admins=$wpdb->get_results("SELECT ID,user_email,display_name FROM {$wpdb->users}");
+    include WP_APIS_TPL.'admin/menu/admins.php';
 }
 
 function wp_apis_users_handler(){
@@ -61,3 +73,5 @@ function wp_apis_users_handler(){
     }
 
 }
+
+
