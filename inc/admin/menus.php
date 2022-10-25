@@ -18,13 +18,38 @@ function wp_apis_myhandler(){
 }
 
 function wp_apis_admins_handler(){
+    
     global $wpdb;
     if(isset($_GET['action'])&& $_GET['action']=='edit')
     {
-        $adminID=
+        $adminID=intval($_GET['id']);
+        if (isset($_POST['saveInfoAdmin'])){
+
+            $mobile=$_POST['mobile'];
+            $wallet=$_POST['wallet'];
+            if(!empty($mobile)){
+                update_user_meta($adminID, 'mobile', $mobile );
+
+            }
+
+            if(!empty($wallet)){
+                update_user_meta($adminID, 'wallet', $wallet );
+
+            }
+
+            
+
+        }
+        
+        $mobile=get_user_meta( $adminID,'mobile', true);
+        $wallet=get_user_meta( $adminID,'wallet', true);
+    include WP_APIS_TPL.'admin/menu/admins/edit.php';
+    return;
+
+
     }
     $admins=$wpdb->get_results("SELECT ID,user_email,display_name FROM {$wpdb->users}");
-    include WP_APIS_TPL.'admin/menu/admins.php';
+    include WP_APIS_TPL.'admin/menu/admins/admins.php';
 }
 
 function wp_apis_users_handler(){
