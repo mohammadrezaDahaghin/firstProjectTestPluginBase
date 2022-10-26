@@ -20,6 +20,8 @@ function wp_apis_myhandler(){
 function wp_apis_admins_handler(){
     
     global $wpdb;
+
+    //start update function userMeta
     if(isset($_GET['action'])&& $_GET['action']=='edit')
     {
         $adminID=intval($_GET['id']);
@@ -29,6 +31,7 @@ function wp_apis_admins_handler(){
             $wallet=$_POST['wallet'];
             if(!empty($mobile)){
                 update_user_meta($adminID, 'mobile', $mobile );
+                
 
             }
 
@@ -48,6 +51,21 @@ function wp_apis_admins_handler(){
 
 
     }
+
+    //end update function userMeta
+
+
+    //start delete function userMeta
+
+    if (isset($_GET['action'])&&$_GET['action']=='RemoveMobileWallet'){
+        $adminID=intval($_GET['id']);
+        delete_user_meta( $adminID,'mobile');
+        delete_user_meta( $adminID,'wallet' );
+    }
+
+    //end delete function userMeta
+
+
     $admins=$wpdb->get_results("SELECT ID,user_email,display_name FROM {$wpdb->users}");
     include WP_APIS_TPL.'admin/menu/admins/admins.php';
 }
