@@ -21,6 +21,15 @@ register_deactivation_hook(__FILE__,'wp_api_deactivation_plugin');
 
 function wp_api_activation_plugin(){
 
+    add_role('mandarari_manager', 'مدیر تخمی', 
+             ['read'=>true,
+            'write'=>true,
+            'edit_posts'=>true,
+            'remove_products'=>true
+            ]);
+
+            $my_role= get_role('administrator');
+            $my_role -> add_cap('remove_products');
 }
 
 function wp_api_deactivation_plugin(){
@@ -28,10 +37,35 @@ function wp_api_deactivation_plugin(){
 
 }
 
+add_action( 'wp_enqueue_scripts','wpapis_register_style');
+add_action( 'admin_enqueue_scripts','wpapis_register_style');
+
+function wpapis_register_style(){
+    wp_register_style('wpapis-main-style',WP_APIS_URL.'assets/css/main.css');
+    wp_enqueue_style('wpapis-main-style');
+
+
+    if(is_admin()){
+        wp_register_script( 'wpapis_admin-script',WP_APIS_URL.'assets/js/wpapis-admin.js',['jquery'],'1.8.0',true);
+        wp_enqueue_script( 'wpapis_admin-script');
+    }else{
+        wp_register_script( 'wpapis_admin-script',WP_APIS_URL.'assets/js/wpapis.js',['jquery'],'19.0',false);
+        wp_enqueue_script( 'wpapis_admin-script');
+    }
+}
+
+
+
+
+
 if(is_admin()){
 
 //    print_r(WP_APIS_INC.'admin/menus.php');
     include (WP_APIS_INC.'admin/menus.php');
 }
+
+
+
+
 
 

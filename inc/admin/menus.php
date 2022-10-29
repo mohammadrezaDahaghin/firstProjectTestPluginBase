@@ -18,6 +18,7 @@ function wp_apis_myhandler(){
 }
 
 function wp_apis_admins_handler(){
+
     
     global $wpdb;
 
